@@ -51,26 +51,28 @@ if choice == 'Equipo':
         "Zona del campo",
         ['Todo']+zona,
         0)
-    #Tipo de fase
-    #tipo_fase = df.Tipo.unique()
-    #tipo_list = tipo_fase.tolist()
-    #menu_tipo = st.sidebar.selectbox(
-    #    "Tipo",
-    #    ['Todos']+tipo_list,
-    #    0)
-
 
     #FILTRADO DE data
     df = df[df.Rival==menu_match]
     df = df[df.Fase==menu_fases]
+
+    #Tipo de fase
+    tipo_fase = df.Tipo.unique()
+    tipo_list = tipo_fase.tolist()
+    menu_tipo = st.sidebar.selectbox(
+        "Tipo",
+        ['Todos']+tipo_list,
+        0)
+
+    #FILTRADO DATA 2
     if menu_zone == 'Todo':
         pass
     else:
         df = df[df.zone==menu_zone]
-    #if menu_tipo == 'Todos':
-    #    pass
-    #else:
-    #    df = df[df.Tipo==menu_tipo]  
+    if menu_tipo == 'Todos':
+        pass
+    else:
+        df = df[df.Tipo==menu_tipo]  
 
 # ------ GRAFICOS O TABLA RESUMEN DE DATA
 
