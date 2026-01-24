@@ -79,7 +79,8 @@ if choice == 'Equipo':
 
 # ------ GRAFICOS O TABLA RESUMEN DE DATA
 
-
+    st.write(df)
+    
 # ------ GRAFICANDO CAMPOGRAMA
     fig = px.scatter(
         df, x='x', y='y', labels={'Nota': 'Nota'},
