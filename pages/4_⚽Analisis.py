@@ -57,8 +57,9 @@ if choice == 'Equipo':
     df = df[df.Fase==menu_fases]
 
     #Tipo de fase
-    tipo_fase = df.Tipo.unique()
-    tipo_list = tipo_fase.tolist()
+    tipo_list = df['Tipo'].dropna().unique().tolist()
+    #tipo_fase = df.Tipo.unique()
+    #tipo_list = tipo_fase.tolist()
     menu_tipo = st.sidebar.selectbox(
         "Tipo",
         ['Todos']+tipo_list,
