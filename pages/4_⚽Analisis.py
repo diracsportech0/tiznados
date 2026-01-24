@@ -121,7 +121,6 @@ if choice == 'Equipo':
     tipo_list = list(df.Tipo.unique())
     df['CurveN'] = df['Tipo'].apply(lambda x: tipo_list.index(x) if x in tipo_list else -1)
     df['ptIndx'] = df.groupby('CurveN').cumcount()
-    st.write(df)
     
     #funcion para extraer el tiempo de inicio y fin de la jugada
     def get_seg(df, curve_value, point_value, get_col):
@@ -136,7 +135,7 @@ if choice == 'Equipo':
     # Si se ha seleccionado un punto, mostrar el video asociado
     #df = df.reset_index(drop=True)
     if selected_points:
-        st.write(selected_points)
+        #st.write(selected_points)
         point_idx = selected_points[0]['pointIndex']
         video_url = df.at[point_idx, 'Video'] #cuidado aqui, si hay dos fuente de video no funcionará
         curve_n = selected_points[0]['curveNumber']
