@@ -52,9 +52,6 @@ if choice == 'Equipo':
         ['Todo']+zona,
         0)
 
-    #FILTRADO DE data
-    df = df[df.Rival==menu_match]
-    df = df[df.Fase==menu_fases]
 
     #Tipo de fase
     #tipo_list = df['Tipo'].dropna().unique().tolist()
@@ -64,6 +61,11 @@ if choice == 'Equipo':
         "Tipo",
         ['Todos']+tipo_list,
         0)
+
+    #FILTRADO DE data
+    df = df[df.Rival==menu_match]
+    df = df[df.Fase==menu_fases]
+
 
     #FILTRADO DATA 2
     if menu_zone == 'Todo':
