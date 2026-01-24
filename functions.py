@@ -440,8 +440,8 @@ def grafico_tiros_goles(df):
     df_tiros = df[df['Nota'].isin(['Tiro', 'GOL'])].copy()
 
     # 2. Definir la dirección (Eje X: A favor vs En contra)
-    en_contra = ['Tran Ataque - Defensa', 'Defensa', 'TL en contra', 'Corner en contra']
-    a_favor = ['Tran Defensa - Ataque', 'Ataque', 'Tiro libre', 'Corner']
+    en_contra = ['Tran. Ataque - Defensa', 'Defensa', 'TL en contra', 'Corner en contra']
+    a_favor = ['Tran. Defensa - Ataque', 'Ataque', 'Tiro libre', 'Corner']
 
     def definir_direccion(fase):
         if fase in a_favor: return 'A Favor'
@@ -452,8 +452,8 @@ def grafico_tiros_goles(df):
 
     # 3. Simplificar las Fases (Agrupación para el color)
     mapa_fases = {
-        'Tran Ataque - Defensa': 'Transicion',
-        'Tran Defensa - Ataque': 'Transicion',
+        'Tran. Ataque - Defensa': 'Transicion',
+        'Tran. Defensa - Ataque': 'Transicion',
         'Ataque': 'Elaborado',
         'Defensa': 'Elaborado',
         'Corner': 'Corner',
