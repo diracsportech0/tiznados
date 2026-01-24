@@ -498,7 +498,7 @@ def mostrar_tablas_zonas(df):
         st.subheader(f"Distribución por Zona: {fase}")
         
         # 1. Filtramos el DataFrame por la fase actual
-        df_filtrado = df[df['fase'] == fase]
+        df_filtrado = df[df['Fase'] == fase]
         
         if df_filtrado.empty:
             st.info(f"No hay datos para la fase: {fase}")
