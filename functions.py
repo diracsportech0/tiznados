@@ -407,7 +407,7 @@ def passmap_player(df_pass,player,oponente):
     st.pyplot(fig)
 
 #-----------------GRAFICO DE BARRAS APILADAS VARIAS -------------
-def barras_apiladas(df, x_col, subtypes, titulo):    
+def barras_apiladasv2(df, x_col, subtypes, titulo):    
     df = df[df.output != '-']
     fig = px.bar(
         df, 
@@ -417,6 +417,33 @@ def barras_apiladas(df, x_col, subtypes, titulo):
         #labels={'fase': 'Fase de Juego', 'output': 'Resultado (Output)', 'count': 'Cantidad'},
         barmode='stack'     # Esto asegura que se apilen (es el valor por defecto)
     )
+    st.plotly_chart(fig, use_container_width=True)
+
+#
+def barras_apiladas(df, x_col, subtypes, titulo):    
+    # 1. Filtramos los datos vacíos
+    df_filtrado = df[df[subtypes] != '-']
+
+    # 2. Agrupamos los datos para sumar las ocurrencias
+    # .size() cuenta las filas, .reset_index() lo convierte de nuevo en DataFrame
+    df_resumen = df_filtrado.groupby([x_col, subtypes]).size().reset_index(name='cantidad')
+    # 3. Creamos el gráfico usando el DataFrame resumido
+    fig = px.bar(
+        df_resumen, 
+        x=x_col,           # Eje X (ej: 'fase')
+        y='cantidad',      # Eje Y (ahora usamos la suma calculada)
+        color=subtypes,    # Segmentos de color (ej: 'output')
+        title=titulo,
+        text='cantidad',   # Muestra el número sobre/dentro de la barra
+        barmode='stack',
+        # Agregamos labels dinámicos para que se vean bien
+        labels={x_col: x_col.capitalize(), subtypes: subtypes.capitalize(), 'cantidad': 'Total'}
+    )
+    # 4. Ajustes estéticos para las etiquetas de texto
+    fig.update_traces(textposition='inside', textfont_size=12)
+    # 5. Ordenar las barras de mayor a menor (opcional)
+    fig.update_layout(xaxis={'categoryorder':'total descending'})
+    
     st.plotly_chart(fig, use_container_width=True)
 
 #---------------------------------------------------------

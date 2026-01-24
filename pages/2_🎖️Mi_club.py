@@ -27,6 +27,7 @@ menu_miclub = ['Videos','Estadísticas']
 choice2 = st.sidebar.radio("Submenú - Miclub", menu_miclub, 0)
 
 if choice2 == 'Estadísticas':
+
     barras_apiladas(df, 'Fase', 'output', "Acierto por fases")
 
 if choice2 == 'Videos':
