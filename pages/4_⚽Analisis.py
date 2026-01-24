@@ -123,7 +123,8 @@ if choice == 'Equipo':
     #df['ptIndx'] = df.groupby('CurveN').cumcount()
 
     output_list = list(df.output.unique())
-    df['CurveN'] = df['Tipo'].apply(lambda x: output_list.index(x) if x in output_list else -1)
+    st.write(output_list)
+    df['CurveN'] = df['output'].apply(lambda x: output_list.index(x) if x in output_list else -1)
     df['ptIndx'] = df.groupby('CurveN').cumcount()
     
     #funcion para extraer el tiempo de inicio y fin de la jugada
