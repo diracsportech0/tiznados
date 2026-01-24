@@ -492,7 +492,7 @@ def mostrar_tablas_zonas(df):
     df.columns = [col.strip() for col in df.columns]
     
     # Lista de las fases que queremos analizar
-    fases_interes = ['Ataque', 'Tran Defensa - Ataque']
+    fases_interes = ['Ataque', 'Tran. Defensa - Ataque']
     
     for fase in fases_interes:
         st.subheader(f"Distribución por Zona: {fase}")
