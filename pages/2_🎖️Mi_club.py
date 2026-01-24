@@ -8,7 +8,7 @@ from mplsoccer import (VerticalPitch, Pitch, create_transparent_cmap,
 
 #from Home_page import name_club, id_club
 from etl import df #df_tipo1, df_tipo2
-from functions import barras_apiladas, grafico_tiros_goles
+from functions import barras_apiladas, grafico_tiros_goles, mostrar_tablas_zonas
 
 
 #url_powerbi = '<iframe title="Plataforma Dirac v1.1" width="900" height="500" src="https://app.powerbi.com/view?r=eyJrIjoiOWM0YmNkMGEtMzc4Ni00MTI4LTk0OGEtZmFhNzc5NTZiYTkxIiwidCI6IjBlMGNiMDYwLTA5YWQtNDlmNS1hMDA1LTY4YjliNDlhYTFmNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>'
@@ -30,6 +30,8 @@ choice2 = st.sidebar.radio("Submenú - Miclub", menu_miclub, 0)
 if choice2 == 'Estadísticas':
 
     barras_apiladas(df, 'Fase', 'output', "Acierto por fases")
+
+    mostrar_tablas_zonas(df)
 
     grafico_tiros_goles(df)
 

@@ -486,7 +486,37 @@ def grafico_tiros_goles(df):
 
     st.plotly_chart(fig, use_container_width=True)
 
-#
+##----------- TABLA DE DOBLE ENTRADA------
+def mostrar_tablas_zonas(df):
+    # Aseguramos que los nombres de columnas no tengan espacios
+    df.columns = [col.strip() for col in df.columns]
+    
+    # Lista de las fases que queremos analizar
+    fases_interes = ['Ataque', 'Tran Defensa - Ataque']
+    
+    for fase in fases_interes:
+        st.subheader(f"Distribución por Zona: {fase}")
+        
+        # 1. Filtramos el DataFrame por la fase actual
+        df_filtrado = df[df['fase'] == fase]
+        
+        if df_filtrado.empty:
+            st.info(f"No hay datos para la fase: {fase}")
+            continue
+            
+        # 2. Creamos la tabla de doble entrada (Fila: Tipo, Columna: zone)
+        # Usamos margins=True para tener los totales automáticos
+        tabla_cruzada = pd.crosstab(
+            df_filtrado['Tipo'], 
+            df_filtrado['zone'], 
+            margins=True, 
+            margins_name="Total"
+        )
+        
+        # 3. Mostrar la tabla en Streamlit con un estilo limpio
+        st.dataframe(tabla_cruzada, use_container_width=True)
+
+
 #---------------------------------------------------------
 '''
     def graph_barras(df_stats, metrica, color_map):
