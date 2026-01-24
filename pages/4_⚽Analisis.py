@@ -83,7 +83,7 @@ if choice == 'Equipo':
     
 # ------ GRAFICANDO CAMPOGRAMA
     fig = px.scatter(
-        df, x='x', y='y', labels={'Nota': 'nota'},
+        df, x='x', y='y', #labels={'Nota': 'nota'},
         color='output',
         color_discrete_map={
             'Correcto': 'blue',
