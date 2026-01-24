@@ -55,12 +55,12 @@ if choice == 'Equipo':
 
     #Tipo de fase
     #tipo_list = df['Tipo'].dropna().unique().tolist()
-    tipo_fase = df.Tipo.unique()
-    tipo_list = tipo_fase.tolist()
-    menu_tipo = st.sidebar.selectbox(
-        "Tipo",
-        ['Todos']+tipo_list,
-        0)
+    #tipo_fase = df.Tipo.unique()
+    #tipo_list = tipo_fase.tolist()
+    #menu_tipo = st.sidebar.selectbox(
+    #    "Tipo",
+    #    ['Todos']+tipo_list,
+    #    0)
 
     #FILTRADO DE data
     df = df[df.Rival==menu_match]
@@ -72,10 +72,10 @@ if choice == 'Equipo':
         pass
     else:
         df = df[df.zone==menu_zone]
-    if menu_tipo == 'Todos':
-        pass
-    else:
-        df = df[df.Tipo==menu_tipo]  
+    #if menu_tipo == 'Todos':
+    #    pass
+    #else:
+    #    df = df[df.Tipo==menu_tipo]  
 
 # ------ GRAFICOS O TABLA RESUMEN DE DATA
 
@@ -83,14 +83,14 @@ if choice == 'Equipo':
     
 # ------ GRAFICANDO CAMPOGRAMA
     fig = px.scatter(
-        df, x='x', y='y', labels={'Nota': 'Nota'},
+        df, x='x', y='y', labels={'Nota': 'nota'},
         color='output',
         color_discrete_map={
             'Correcto': 'blue',
             'Incorrecto': 'red',
             'Intermedio': 'black',
         },
-        title=f'{menu_fases} en {menu_match} <br> ➜', hover_data=['time']
+        title=f'{menu_fases} en {menu_match} <br> ➜', hover_data=['time,Nota']
     )
     # Agregar la imagen de fondo al layout
     image = Image.open('campo.png')
@@ -121,9 +121,9 @@ if choice == 'Equipo':
     tipo_list = list(df.Tipo.unique())
     df['CurveN'] = df['Tipo'].apply(lambda x: tipo_list.index(x) if x in tipo_list else -1)
     df['ptIndx'] = df.groupby('CurveN').cumcount()
-    #st.write(df)
+    st.write(df)
     
-    #funcion para entraer el tiempo de inicio y fin de la jugada
+    #funcion para extraer el tiempo de inicio y fin de la jugada
     def get_seg(df, curve_value, point_value, get_col):
         result = df.loc[(df['CurveN'] == curve_value) & (df['ptIndx'] == point_value), get_col]
         return result.iloc[0] if not result.empty else None 
@@ -136,7 +136,7 @@ if choice == 'Equipo':
     # Si se ha seleccionado un punto, mostrar el video asociado
     #df = df.reset_index(drop=True)
     if selected_points:
-        #st.write(selected_points)
+        st.write(selected_points)
         point_idx = selected_points[0]['pointIndex']
         video_url = df.at[point_idx, 'Video'] #cuidado aqui, si hay dos fuente de video no funcionará
         curve_n = selected_points[0]['curveNumber']
