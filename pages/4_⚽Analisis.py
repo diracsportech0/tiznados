@@ -90,7 +90,7 @@ if choice == 'Equipo':
             'Incorrecto': 'red',
             'Intermedio': 'black',
         },
-        title=f'{menu_fases} en {menu_match} <br> ➜', hover_data=['time,Nota']
+        title=f'{menu_fases} en {menu_match} <br> ➜', hover_data=['time','Nota']
     )
     # Agregar la imagen de fondo al layout
     image = Image.open('campo.png')
