@@ -408,7 +408,7 @@ def passmap_player(df_pass,player,oponente):
 
 #-----------------GRAFICO DE BARRAS APILADAS VARIAS -------------
 def barras_apiladas(df, x_col, subtypes, titulo):    
-    df = df[df.ouput!='-']
+    df = df[df.output != '-']
     fig = px.bar(
         df, 
         x=x_col,           # El eje X tendrá una barra por cada fase
