@@ -448,7 +448,7 @@ def grafico_tiros_goles(df):
         if fase in en_contra: return 'En Contra'
         return 'Otro'
 
-    df_tiros['Direccion'] = df_tiros['fase'].apply(definir_direccion)
+    df_tiros['Direccion'] = df_tiros['Fase'].apply(definir_direccion)
 
     # 3. Simplificar las Fases (Agrupación para el color)
     mapa_fases = {
@@ -462,7 +462,7 @@ def grafico_tiros_goles(df):
         'TL en contra': 'Tiro Libre'
     }
     
-    df_tiros['Fase_Simple'] = df_tiros['fase'].map(mapa_fases)
+    df_tiros['Fase_Simple'] = df_tiros['Fase'].map(mapa_fases)
 
     # 4. Agrupar para el conteo final
     df_plot = df_tiros.groupby(['Direccion', 'Fase_Simple']).size().reset_index(name='Cantidad')
