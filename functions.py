@@ -407,19 +407,6 @@ def passmap_player(df_pass,player,oponente):
     st.pyplot(fig)
 
 #-----------------GRAFICO DE BARRAS APILADAS VARIAS -------------
-def barras_apiladasv2(df, x_col, subtypes, titulo):    
-    df = df[df.output != '-']
-    fig = px.bar(
-        df, 
-        x=x_col,           # El eje X tendrá una barra por cada fase
-        color=subtypes,     # Los colores dentro de la barra representan el output
-        title=titulo,
-        #labels={'fase': 'Fase de Juego', 'output': 'Resultado (Output)', 'count': 'Cantidad'},
-        barmode='stack'     # Esto asegura que se apilen (es el valor por defecto)
-    )
-    st.plotly_chart(fig, use_container_width=True)
-
-#
 def barras_apiladas(df, x_col, subtypes, titulo):    
     # 1. Filtramos los datos vacíos
     df_filtrado = df[df[subtypes] != '-']
@@ -434,7 +421,7 @@ def barras_apiladas(df, x_col, subtypes, titulo):
         y='cantidad',      # Eje Y (ahora usamos la suma calculada)
         color=subtypes,    # Segmentos de color (ej: 'output')
         title=titulo,
-        text='cantidad',   # Muestra el número sobre/dentro de la barra
+        #text='cantidad',   # Muestra el número sobre/dentro de la barra
         barmode='stack',
         # Agregamos labels dinámicos para que se vean bien
         labels={x_col: x_col.capitalize(), subtypes: subtypes.capitalize(), 'cantidad': 'Total'}
@@ -442,10 +429,64 @@ def barras_apiladas(df, x_col, subtypes, titulo):
     # 4. Ajustes estéticos para las etiquetas de texto
     fig.update_traces(textposition='inside', textfont_size=12)
     # 5. Ordenar las barras de mayor a menor (opcional)
-    fig.update_layout(xaxis={'categoryorder':'total descending'})
+    #fig.update_layout(xaxis={'categoryorder':'total descending'})
     
     st.plotly_chart(fig, use_container_width=True)
 
+#------------------------------ GRAFICO DE BARRAS DE TIRO
+
+def grafico_tiros_goles(df):
+    # 1. Filtrar solo filas donde Nota sea 'Tiro' o 'GOL'
+    df_tiros = df[df['Nota'].isin(['Tiro', 'GOL'])].copy()
+
+    # 2. Definir la dirección (Eje X: A favor vs En contra)
+    en_contra = ['Tran Ataque - Defensa', 'Defensa', 'TL en contra', 'Corner en contra']
+    a_favor = ['Tran Defensa - Ataque', 'Ataque', 'Tiro libre', 'Corner']
+
+    def definir_direccion(fase):
+        if fase in a_favor: return 'A Favor'
+        if fase in en_contra: return 'En Contra'
+        return 'Otro'
+
+    df_tiros['Direccion'] = df_tiros['fase'].apply(definir_direccion)
+
+    # 3. Simplificar las Fases (Agrupación para el color)
+    mapa_fases = {
+        'Tran Ataque - Defensa': 'Transicion',
+        'Tran Defensa - Ataque': 'Transicion',
+        'Ataque': 'Elaborado',
+        'Defensa': 'Elaborado',
+        'Corner': 'Corner',
+        'Corner en contra': 'Corner',
+        'Tiro libre': 'Tiro Libre',
+        'TL en contra': 'Tiro Libre'
+    }
+    
+    df_tiros['Fase_Simple'] = df_tiros['fase'].map(mapa_fases)
+
+    # 4. Agrupar para el conteo final
+    df_plot = df_tiros.groupby(['Direccion', 'Fase_Simple']).size().reset_index(name='Cantidad')
+
+    # 5. Crear el gráfico
+    fig = px.bar(
+        df_plot,
+        x='Direccion',
+        y='Cantidad',
+        color='Fase_Simple',
+        title="Análisis de Tiros y Goles: A Favor vs En Contra",
+        barmode='stack',
+        text='Cantidad',
+        color_discrete_map={
+            'Transicion': '#FFA500', # Naranja
+            'Elaborado': '#1f77b4',   # Azul
+            'Corner': '#2ca02c',     # Verde
+            'Tiro Libre': '#d62728'  # Rojo
+        }
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+#
 #---------------------------------------------------------
 '''
     def graph_barras(df_stats, metrica, color_map):
