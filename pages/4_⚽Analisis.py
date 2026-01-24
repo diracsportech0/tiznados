@@ -134,7 +134,7 @@ if choice == 'Equipo':
     st.write(selected_points)
     
     # Si se ha seleccionado un punto, mostrar el video asociado
-    df = df.reset_index(drop=True)
+    #df = df.reset_index(drop=True)
     if selected_points:
         #st.write(selected_points)
         point_idx = selected_points[0]['pointIndex']
