@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 from mplsoccer import (VerticalPitch, Pitch, create_transparent_cmap,
                        FontManager, arrowhead_marker, Sbopen)
 
-from Home_page import name_club, id_club
+#from Home_page import name_club, id_club
 from etl import df, df_tipo1, df_tipo2
 from functions import barras_apiladas
 
