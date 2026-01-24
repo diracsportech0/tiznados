@@ -51,6 +51,9 @@ df['zone'] = pd.cut(df['X'], bins=bins, labels=labels) #nueva columna usando pd.
 df['x'] = df['X']*1.2
 df['y'] = df['Y']*0.8
 
+# Reemplaza los valores vacíos (NaN) con "-" en la columna 'output'
+df['output'] = df['output'].fillna('-')
+
 '''
 # -----Df de pases
 df_pass = startfin_df (df,'Pase')
