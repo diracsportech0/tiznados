@@ -7,7 +7,7 @@ from mplsoccer import (VerticalPitch, Pitch, create_transparent_cmap,
                        FontManager, arrowhead_marker, Sbopen)
 
 #from Home_page import name_club, id_club
-from etl import df, df_tipo1, df_tipo2
+from etl import df #df_tipo1, df_tipo2
 from functions import barras_apiladas
 
 #url_powerbi = '<iframe title="Plataforma Dirac v1.1" width="900" height="500" src="https://app.powerbi.com/view?r=eyJrIjoiOWM0YmNkMGEtMzc4Ni00MTI4LTk0OGEtZmFhNzc5NTZiYTkxIiwidCI6IjBlMGNiMDYwLTA5YWQtNDlmNS1hMDA1LTY4YjliNDlhYTFmNiIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>'
