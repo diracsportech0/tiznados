@@ -8,6 +8,9 @@ from mplsoccer import (VerticalPitch, Pitch, create_transparent_cmap,
 from scipy.ndimage import gaussian_filter
 from matplotlib.colors import LinearSegmentedColormap
 
+import plotly.express as px
+
+
 
 
 #-----------  FUNCION GENERAR DF CON DOS PUNTOS (INICIO Y FIN)
@@ -403,8 +406,20 @@ def passmap_player(df_pass,player,oponente):
     ax.set_title(titulo,fontsize=15)
     st.pyplot(fig)
 
+#-----------------GRAFICO DE BARRAS APILADAS VARIAS -------------
+def barras_apiladas(df, x_col, subtypes, titulo):    
+    df['output'] = df['output'].fillna('-')
+    fig = px.bar(
+        df, 
+        x=x_col,           # El eje X tendrá una barra por cada fase
+        color=subtypes,     # Los colores dentro de la barra representan el output
+        title=titulo,
+        #labels={'fase': 'Fase de Juego', 'output': 'Resultado (Output)', 'count': 'Cantidad'},
+        barmode='stack'     # Esto asegura que se apilen (es el valor por defecto)
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
-
+#---------------------------------------------------------
 '''
     def graph_barras(df_stats, metrica, color_map):
     colors = df_stats['localidad'].map(color_map)
@@ -441,3 +456,4 @@ def passmap_player(df_pass,player,oponente):
     #st.plotly_chart(fig)
     return fig
 '''
+

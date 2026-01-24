@@ -7,7 +7,7 @@ from mplsoccer import (VerticalPitch, Pitch, create_transparent_cmap,
                        FontManager, arrowhead_marker, Sbopen)
 #from Home_page import name_club, id_club
 from etl import df# df_pass
-#from functions import mapa_pases, passmap_player,player_passmap
+from functions import barras_apiladas#mapa_pases, passmap_player,player_passmap
 
 
 import plotly.express as px
@@ -153,4 +153,6 @@ if choice == 'Equipo':
 
 # ----------- ANALISIS: JUGADORES -------------------------------------
 elif choice == 'Jugadores':
-    st.write("NO DISPONIBLE")
+    #st.write("NO DISPONIBLE")
+
+    barras_apiladas(df, 'Fase', 'output', "Acierto por fases")
