@@ -123,7 +123,6 @@ if choice == 'Equipo':
     #df['ptIndx'] = df.groupby('CurveN').cumcount()
 
     output_list = list(df.output.unique())
-    st.write(output_list)
     df['CurveN'] = df['output'].apply(lambda x: output_list.index(x) if x in output_list else -1)
     df['ptIndx'] = df.groupby('CurveN').cumcount()
     
@@ -146,9 +145,9 @@ if choice == 'Equipo':
         curve_n = selected_points[0]['curveNumber']
         #st.write(curve_n)
         start_time = get_seg(df, curve_n, point_idx,'seg_start')
-        st.write(start_time)
+        #st.write(start_time)
         end_time = get_seg(df, curve_n, point_idx,'seg_end')
-        st.write(end_time)
+        #st.write(end_time)
         st.video(video_url, start_time=start_time, end_time=end_time, loop=0, muted=0)
 
 # ----------- ANALISIS: JUGADORES -------------------------------------
