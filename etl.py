@@ -53,6 +53,7 @@ df['y'] = df['Y']*0.8
 
 # Reemplaza los valores vacíos (NaN) con "-" en la columna 'output'
 df['output'] = df['output'].fillna('-')
+df['Nota'] = df['Nota'].fillna('-')
 
 '''
 # -----Df de pases
