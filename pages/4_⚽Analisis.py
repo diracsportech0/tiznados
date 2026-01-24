@@ -54,13 +54,13 @@ if choice == 'Equipo':
 
 
     #Tipo de fase
-    #tipo_list = df['Tipo'].dropna().unique().tolist()
+    tipo_list = df['Tipo'].dropna().unique().tolist()
     #tipo_fase = df.Tipo.unique()
     #tipo_list = tipo_fase.tolist()
-    #menu_tipo = st.sidebar.selectbox(
-    #    "Tipo",
-    #    ['Todos']+tipo_list,
-    #    0)
+    menu_tipo = st.sidebar.selectbox(
+        "Tipo",
+        ['Todos']+tipo_list,
+        0)
 
     #FILTRADO DE data
     df = df[df.Rival==menu_match]
@@ -72,14 +72,14 @@ if choice == 'Equipo':
         pass
     else:
         df = df[df.zone==menu_zone]
-    #if menu_tipo == 'Todos':
-    #    pass
-    #else:
-    #    df = df[df.Tipo==menu_tipo]  
+    if menu_tipo == 'Todos':
+        pass
+    else:
+        df = df[df.Tipo==menu_tipo]  
 
 # ------ GRAFICOS O TABLA RESUMEN DE DATA
 
-    st.write(df)
+    #st.write(df)
     
 # ------ GRAFICANDO CAMPOGRAMA
     fig = px.scatter(
@@ -135,7 +135,7 @@ if choice == 'Equipo':
 
     # Capturar el clic del usuario en el gráfico
     selected_points = plotly_events(fig, click_event=True, hover_event=False)
-    st.write(selected_points)
+    #st.write(selected_points)
     
     # Si se ha seleccionado un punto, mostrar el video asociado
     df = df.reset_index(drop=True)
