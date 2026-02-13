@@ -25,10 +25,11 @@ with colY:pass
 with colZ:st.image('logo-piad.png', use_column_width=True)
 #------------ 1. MENU LATERAL
 menu_analisis = ['Equipo','Jugadores']
-choice = st.sidebar.radio("Submenú - Análisis", menu_analisis, 0) #el 0 es el indice de la opcion por defecto
+choice = st.sidebar.radio("SUBMENÚ", menu_analisis, 0) #el 0 es el indice de la opcion por defecto
 df_players = df.copy()
 # ------------------- ANALISIS: EQUIPO ------
 if choice == 'Equipo':
+    df = df[df.action_type=='colectivo']
     # Barra lateral
     #RIVAL
     rivales = df.Rival.unique()
@@ -38,7 +39,7 @@ if choice == 'Equipo':
         rivales,
         n_partido)
     #FASE Y TERCIO
-    fases = df.Fase.unique()
+    fases = df.Event.unique()
     fases_list = fases.tolist()
     zona = list(df.zone.unique())
     #FASE --OK
@@ -53,11 +54,9 @@ if choice == 'Equipo':
         0)
 
 
-
-
     #FILTRADO DE data
     df = df[df.Rival==menu_match]
-    df = df[df.Fase==menu_fases]
+    df = df[df.Event==menu_fases]
     
     #Tipo de fase
     tipo_list = df['Tipo'].dropna().unique().tolist()
@@ -87,9 +86,13 @@ if choice == 'Equipo':
         df, x='x', y='y', #labels={'Nota': 'nota'},
         color='output',
         color_discrete_map={
-            'Correcto': 'blue',
-            'Incorrecto': 'red',
-            'Intermedio': 'black',
+            'Pérdida': '#AD1D00',
+            'Progresión': '#C78B08',
+            'Ocasión': '#102C9C',
+
+            'Ocasión rival': '#AD1D00',
+            'Progresión riv.':'#FA6019',
+            'Recuperación': '#102C9C',
         },
         title=f'{menu_fases} en {menu_match} <br> ➜', hover_data=['time','Nota']
     )

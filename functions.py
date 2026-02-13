@@ -407,9 +407,10 @@ def passmap_player(df_pass,player,oponente):
     st.pyplot(fig)
 
 #-----------------GRAFICO DE BARRAS APILADAS VARIAS -------------
-def barras_apiladas(df, x_col, subtypes, titulo):    
+def barras_apiladas(df, x_col, fases_select,subtypes, titulo):    
     # 1. Filtramos los datos vacíos
-    df_filtrado = df[df[subtypes] != '-']
+    df_filtrado = df[df.output != '-']
+    df_filtrado = df_filtrado[df_filtrado.Event.isin(fases_select)]
 
     # 2. Agrupamos los datos para sumar las ocurrencias
     # .size() cuenta las filas, .reset_index() lo convierte de nuevo en DataFrame
@@ -421,7 +422,7 @@ def barras_apiladas(df, x_col, subtypes, titulo):
         y='cantidad',      # Eje Y (ahora usamos la suma calculada)
         color=subtypes,    # Segmentos de color (ej: 'output')
         title=titulo,
-        #text='cantidad',   # Muestra el número sobre/dentro de la barra
+        text='cantidad',   # Muestra el número sobre/dentro de la barra
         barmode='stack',
         # Agregamos labels dinámicos para que se vean bien
         labels={x_col: x_col.capitalize(), subtypes: subtypes.capitalize(), 'cantidad': 'Total'}
@@ -430,25 +431,25 @@ def barras_apiladas(df, x_col, subtypes, titulo):
     fig.update_traces(textposition='inside', textfont_size=12)
     # 5. Ordenar las barras de mayor a menor (opcional)
     #fig.update_layout(xaxis={'categoryorder':'total descending'})
-    
+    fig.update_xaxes(title_text='')
     st.plotly_chart(fig, use_container_width=True)
 
 #------------------------------ GRAFICO DE BARRAS DE TIRO
 
-def grafico_tiros_goles(df):
-    # 1. Filtrar solo filas donde Nota sea 'Tiro' o 'GOL'
-    df_tiros = df[df['Nota'].isin(['Tiro', 'GOL'])].copy()
+def tipo_tiros_goles(df,output):
+    
+    df_tiros = df[df['output'].isin([output])].copy()
 
     # 2. Definir la dirección (Eje X: A favor vs En contra)
-    en_contra = ['Tran. Ataque - Defensa', 'Defensa', 'TL en contra', 'Corner en contra']
-    a_favor = ['Tran. Defensa - Ataque', 'Ataque', 'Tiro libre', 'Corner']
+    en_contra = ['Tran. Ataque - Defensa', 'Defensa', 'ABP en contra']
+    a_favor = ['Tran. Defensa - Ataque', 'Ataque', 'ABP a favor']
 
     def definir_direccion(fase):
         if fase in a_favor: return 'A Favor'
         if fase in en_contra: return 'En Contra'
         return 'Otro'
 
-    df_tiros['Direccion'] = df_tiros['Fase'].apply(definir_direccion)
+    df_tiros['Direccion'] = df_tiros['Event'].apply(definir_direccion)
 
     # 3. Simplificar las Fases (Agrupación para el color)
     mapa_fases = {
@@ -456,13 +457,11 @@ def grafico_tiros_goles(df):
         'Tran. Defensa - Ataque': 'Transicion',
         'Ataque': 'Elaborado',
         'Defensa': 'Elaborado',
-        'Corner': 'Corner',
-        'Corner en contra': 'Corner',
-        'Tiro libre': 'Tiro Libre',
-        'TL en contra': 'Tiro Libre'
+        'ABP a favor': 'ABP',
+        'ABP en contra': 'ABP'
     }
     
-    df_tiros['Fase_Simple'] = df_tiros['Fase'].map(mapa_fases)
+    df_tiros['Fase_Simple'] = df_tiros['Event'].map(mapa_fases)
 
     # 4. Agrupar para el conteo final
     df_plot = df_tiros.groupby(['Direccion', 'Fase_Simple']).size().reset_index(name='Cantidad')
@@ -473,32 +472,29 @@ def grafico_tiros_goles(df):
         x='Direccion',
         y='Cantidad',
         color='Fase_Simple',
-        title="Análisis de Tiros y Goles: A Favor vs En Contra",
+        title="Análisis de Ocasiones",
         barmode='stack',
         text='Cantidad',
         color_discrete_map={
             'Transicion': '#FFA500', # Naranja
             'Elaborado': '#1f77b4',   # Azul
-            'Corner': '#2ca02c',     # Verde
-            'Tiro Libre': '#d62728'  # Rojo
+            'ABP': '#2ca02c',     # Verde
         }
     )
 
+    fig.update_xaxes(title_text='')
     st.plotly_chart(fig, use_container_width=True)
 
 ##----------- TABLA DE DOBLE ENTRADA------
-def mostrar_tablas_zonas(df):
+def mostrar_tablas_zonas(df, fases_interes):
     # Aseguramos que los nombres de columnas no tengan espacios
     df.columns = [col.strip() for col in df.columns]
-    
-    # Lista de las fases que queremos analizar
-    fases_interes = ['Ataque', 'Tran. Defensa - Ataque']
-    
+        
     for fase in fases_interes:
-        st.subheader(f"Distribución por Zona: {fase}")
+        st.write(f"Comportamiento en {fase} por Zona")
         
         # 1. Filtramos el DataFrame por la fase actual
-        df_filtrado = df[df['Fase'] == fase]
+        df_filtrado = df[df['Event'] == fase]
         
         if df_filtrado.empty:
             st.info(f"No hay datos para la fase: {fase}")

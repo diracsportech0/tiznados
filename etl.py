@@ -55,12 +55,11 @@ df['y'] = df['Y']*0.8
 df['output'] = df['output'].fillna('-')
 df['Nota'] = df['Nota'].fillna('-')
 
-'''
 # -----Df de pases
 df_pass = startfin_df (df,'Pase')
 #---- DF CORNER
 #df_corner= startfin_df (df,'Corner')
-
+'''
 # SEPARAR EVENTOS
 list_event_conteo = ['Carrera','Corner', 'Corner en contra', 'Despeje','Falta cometida', 'Falta recibida','Interceptación',
                      'Off-side', 'Otras perdidas','Presión','Tiro arco','Tiro desviado',
