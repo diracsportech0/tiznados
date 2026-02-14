@@ -223,7 +223,7 @@ elif choice == 'Jugadores':
     #df['CurveN'] = df['Tipo'].apply(lambda x: tipo_list.index(x) if x in tipo_list else -1)
     #df['ptIndx'] = df.groupby('CurveN').cumcount()
 
-    acctions_list = list(df_ind.Fase.unique())
+    acctions_list = list(df_ind.Event.unique())
     df_ind['CurveN'] = df_ind['output'].apply(lambda x: acctions_list.index(x) if x in acctions_list else -1)
     df_ind['ptIndx'] = df_ind.groupby('CurveN').cumcount()
     
