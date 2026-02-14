@@ -172,7 +172,7 @@ elif choice == 'Jugadores':
     zona = list(df_ind.zone.unique())
     #Jugadores --OK
     menu_players = st.sidebar.selectbox(
-        "Fase",
+        "Jugadores",
         sorted(players_list),
         0)
     #TERCIO -- OK
@@ -180,10 +180,70 @@ elif choice == 'Jugadores':
         "Zona del campo",
         ['Todo']+zona,
         0)
-
-
     #FILTRADO DE data
     df_ind = df_ind[df_ind.Rival==menu_match]
     df_ind = df_ind[df_ind.Event==menu_players]
 
+    #------------ CAMPOGRAMA-------------------------------------------
+
+    fig = px.scatter(
+        df_players, x='x', y='y', #labels={'Nota': 'nota'},
+        color='Fase',
+        title=f'{menu_players} vs {menu_match} <br> ➜', hover_data=['time','Nota']
+    )
+    # Agregar la imagen de fondo al layout
+    image = Image.open('campo.png')
+    fig.add_layout_image(
+        dict(
+            source=image,
+            xref="x", yref="y",
+            x=0,y=0,
+            sizex=120,sizey=80,
+            sizing="stretch",
+            opacity=0.8,
+            layer="below",
+        )
+    )
+    # Fijar el tamaño de los ejes
+    fig.update_xaxes(range=[0, 120], tickvals=[40,80])
+    fig.update_yaxes(range=[80, 0], tickvals=[25,55]) 
+    fig.update_layout(
+        margin=dict(l=40, r=5, t=50, b=30), # Ajustar los márgenes
+        plot_bgcolor='lightgray', #fondo
+        paper_bgcolor='lightgray',  # Color de fondo alrededor del gráfico
+        hovermode='closest'  # closest' asegura que el punto más cercano al cursor será seleccionado.
+    )
+
+
+    #Mapeo de punto al que se hace clic con el evento (VERIFICAR POR CADA CODIGO)
+    #Esto se realiza porque se colocaron varios colores
+    #tipo_list = list(df.Tipo.unique())
+    #df['CurveN'] = df['Tipo'].apply(lambda x: tipo_list.index(x) if x in tipo_list else -1)
+    #df['ptIndx'] = df.groupby('CurveN').cumcount()
+
+    acctions_list = list(df_players.Fase.unique())
+    df_players['CurveN'] = df_players['output'].apply(lambda x: acctions_list.index(x) if x in acctions_list else -1)
+    df_players['ptIndx'] = df_players.groupby('CurveN').cumcount()
     
+    #funcion para extraer el tiempo de inicio y fin de la jugada
+    def get_seg(df, curve_value, point_value, get_col):
+        result = df.loc[(df['CurveN'] == curve_value) & (df['ptIndx'] == point_value), get_col]
+        return result.iloc[0] if not result.empty else None 
+
+    # Capturar el clic del usuario en el gráfico
+    selected_points = plotly_events(fig, click_event=True, hover_event=False)
+    #st.write(selected_points)
+    
+    # Si se ha seleccionado un punto, mostrar el video asociado
+    df_players = df_players.reset_index(drop=True)
+    if selected_points:
+        #st.write(selected_points)
+        point_idx = selected_points[0]['pointIndex']
+        video_url = df_players.at[point_idx, 'Video'] #cuidado aqui, si hay dos fuente de video no funcionará
+        curve_n = selected_points[0]['curveNumber']
+        #st.write(curve_n)
+        start_time = get_seg(df_players, curve_n, point_idx,'seg_start')
+        #st.write(start_time)
+        end_time = get_seg(df_players, curve_n, point_idx,'seg_end')
+        #st.write(end_time)
+        st.video(video_url, start_time=start_time, end_time=end_time, loop=0, muted=0)
