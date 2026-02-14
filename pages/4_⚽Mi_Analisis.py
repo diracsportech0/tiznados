@@ -26,7 +26,7 @@ with colZ:st.image('logo-piad.png', use_column_width=True)
 #------------ 1. MENU LATERAL
 menu_analisis = ['Equipo','Jugadores']
 choice = st.sidebar.radio("SUBMENÚ", menu_analisis, 0) #el 0 es el indice de la opcion por defecto
-#df_players = df.copy()
+df_players = df.copy()
 
 # ------------------- ANALISIS: EQUIPO ------
 if choice == 'Equipo':
@@ -157,7 +157,7 @@ if choice == 'Equipo':
 # ----------- ANALISIS: JUGADORES -------------------------------------
 elif choice == 'Jugadores':
 
-    df_ind = df[df.action_type=='individual']
+    df_ind = df_players[df_players.action_type=='individual']
 
     # Barra lateral
     #RIVAL
@@ -192,6 +192,7 @@ elif choice == 'Jugadores':
         color='Fase',
         title=f'{menu_players} vs {menu_match} <br> ➜', hover_data=['time','Nota']
     )
+    st.write('LISTO')
     # Agregar la imagen de fondo al layout
     image = Image.open('campo.png')
     fig.add_layout_image(
