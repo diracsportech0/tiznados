@@ -184,6 +184,6 @@ elif choice == 'Jugadores':
 
     #FILTRADO DE data
     df_ind = df_ind[df_ind.Rival==menu_match]
-    df_ind = df_ind[df_ind.Event==menu_fases]
+    df_ind = df_ind[df_ind.Event==menu_players]
 
     
