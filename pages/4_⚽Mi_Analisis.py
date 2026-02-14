@@ -135,7 +135,6 @@ if choice == 'Equipo':
         result = df.loc[(df['CurveN'] == curve_value) & (df['ptIndx'] == point_value), get_col]
         return result.iloc[0] if not result.empty else None 
 
-
     # Capturar el clic del usuario en el gráfico
     selected_points = plotly_events(fig, click_event=True, hover_event=False)
     #st.write(selected_points)
@@ -156,6 +155,34 @@ if choice == 'Equipo':
 
 # ----------- ANALISIS: JUGADORES -------------------------------------
 elif choice == 'Jugadores':
-    st.write("NO DISPONIBLE")
+
+    df_ind = df[df.action_type=='individual']
+    # Barra lateral
+    #RIVAL
+    rivales = df_ind.Rival.unique()
+    n_partido = len(rivales)-1
+    menu_match = st.sidebar.selectbox(
+        "Partido",
+        rivales,
+        n_partido)
+    #FASE Y TERCIO
+    fases = df_ind.Event.unique()
+    fases_list = fases.tolist()
+    zona = list(df_ind.zone.unique())
+    #FASE --OK
+    menu_fases = st.sidebar.selectbox(
+        "Fase",
+        sorted(fases_list),
+        0)
+    #TERCIO -- OK
+    menu_zone = st.sidebar.selectbox(
+        "Zona del campo",
+        ['Todo']+zona,
+        0)
+
+
+    #FILTRADO DE data
+    df_ind = df_ind[df_ind.Rival==menu_match]
+    df_ind = df_ind[df_ind.Event==menu_fases]
 
     
