@@ -183,7 +183,7 @@ elif choice == 'Jugadores':
         0)
     #FILTRADO DE data
     df_ind = df_ind[df_ind.Rival==menu_match]
-    df_ind = df_ind[df_ind.Event==menu_players]
+    df_ind = df_ind[df_ind.player==menu_players]
 
     #------------ CAMPOGRAMA-------------------------------------------
 
