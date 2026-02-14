@@ -201,6 +201,7 @@ elif choice == 'Jugadores':
         hover_data={
             'x': False,
             'y': False,
+            'output':True,
             'time': True,
             'Nota': True
         },
