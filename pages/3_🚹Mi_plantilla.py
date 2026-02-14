@@ -21,5 +21,5 @@ st.title("🚹 MI PLANTILLA")
 ######## --------------- MAPA DE PASES
 df_pass_player = df_pass[df_pass.player==player]
 #df_pass_player = df_pass_player[df_pass_player.match_filter==rival]
-player_passmap(df_pass_player,player,'S. Huracancito')
+player_passmap(df_pass_player,player,'USMP')
 
