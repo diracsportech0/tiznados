@@ -157,6 +157,7 @@ if choice == 'Equipo':
 elif choice == 'Jugadores':
 
     df_ind = df[df.action_type=='individual']
+
     # Barra lateral
     #RIVAL
     rivales = df_ind.Rival.unique()
@@ -165,14 +166,14 @@ elif choice == 'Jugadores':
         "Partido",
         rivales,
         n_partido)
-    #FASE Y TERCIO
-    fases = df_ind.Event.unique()
-    fases_list = fases.tolist()
+    #Jugador Y TERCIO
+    players = df_ind.player.unique()
+    players_list = players.tolist()
     zona = list(df_ind.zone.unique())
-    #FASE --OK
-    menu_fases = st.sidebar.selectbox(
+    #Jugadores --OK
+    menu_players = st.sidebar.selectbox(
         "Fase",
-        sorted(fases_list),
+        sorted(players_list),
         0)
     #TERCIO -- OK
     menu_zone = st.sidebar.selectbox(
