@@ -26,7 +26,8 @@ with colZ:st.image('logo-piad.png', use_column_width=True)
 #------------ 1. MENU LATERAL
 menu_analisis = ['Equipo','Jugadores']
 choice = st.sidebar.radio("SUBMENÚ", menu_analisis, 0) #el 0 es el indice de la opcion por defecto
-df_players = df.copy()
+#df_players = df.copy()
+
 # ------------------- ANALISIS: EQUIPO ------
 if choice == 'Equipo':
     df = df[df.action_type=='colectivo']
@@ -187,7 +188,7 @@ elif choice == 'Jugadores':
     #------------ CAMPOGRAMA-------------------------------------------
 
     fig = px.scatter(
-        df_players, x='x', y='y', #labels={'Nota': 'nota'},
+        df_ind, x='x', y='y', #labels={'Nota': 'nota'},
         color='Fase',
         title=f'{menu_players} vs {menu_match} <br> ➜', hover_data=['time','Nota']
     )
@@ -221,9 +222,9 @@ elif choice == 'Jugadores':
     #df['CurveN'] = df['Tipo'].apply(lambda x: tipo_list.index(x) if x in tipo_list else -1)
     #df['ptIndx'] = df.groupby('CurveN').cumcount()
 
-    acctions_list = list(df_players.Fase.unique())
-    df_players['CurveN'] = df_players['output'].apply(lambda x: acctions_list.index(x) if x in acctions_list else -1)
-    df_players['ptIndx'] = df_players.groupby('CurveN').cumcount()
+    acctions_list = list(df_ind.Fase.unique())
+    df_ind['CurveN'] = df_ind['output'].apply(lambda x: acctions_list.index(x) if x in acctions_list else -1)
+    df_ind['ptIndx'] = df_ind.groupby('CurveN').cumcount()
     
     #funcion para extraer el tiempo de inicio y fin de la jugada
     def get_seg(df, curve_value, point_value, get_col):
@@ -235,15 +236,15 @@ elif choice == 'Jugadores':
     #st.write(selected_points)
     
     # Si se ha seleccionado un punto, mostrar el video asociado
-    df_players = df_players.reset_index(drop=True)
+    df_ind = df_ind.reset_index(drop=True)
     if selected_points:
         #st.write(selected_points)
         point_idx = selected_points[0]['pointIndex']
-        video_url = df_players.at[point_idx, 'Video'] #cuidado aqui, si hay dos fuente de video no funcionará
+        video_url = df_ind.at[point_idx, 'Video'] #cuidado aqui, si hay dos fuente de video no funcionará
         curve_n = selected_points[0]['curveNumber']
         #st.write(curve_n)
-        start_time = get_seg(df_players, curve_n, point_idx,'seg_start')
+        start_time = get_seg(df_ind, curve_n, point_idx,'seg_start')
         #st.write(start_time)
-        end_time = get_seg(df_players, curve_n, point_idx,'seg_end')
+        end_time = get_seg(df_ind, curve_n, point_idx,'seg_end')
         #st.write(end_time)
         st.video(video_url, start_time=start_time, end_time=end_time, loop=0, muted=0)
