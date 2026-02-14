@@ -224,7 +224,7 @@ elif choice == 'Jugadores':
     #df['ptIndx'] = df.groupby('CurveN').cumcount()
 
     acctions_list = list(df_ind.Event.unique())
-    df_ind['CurveN'] = df_ind['output'].apply(lambda x: acctions_list.index(x) if x in acctions_list else -1)
+    df_ind['CurveN'] = df_ind['Event'].apply(lambda x: acctions_list.index(x) if x in acctions_list else -1)
     df_ind['ptIndx'] = df_ind.groupby('CurveN').cumcount()
     
     #funcion para extraer el tiempo de inicio y fin de la jugada
