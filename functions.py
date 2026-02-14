@@ -157,7 +157,7 @@ def heat_map(df, metricas):
 
 # --------------------- FUNCION MAPA DE PASES DE UN JUGADOR (completo + incompletos) --------
 def player_passmap(df_pass, player, oponente):
-    mask_complete = df_pass.output=='Correcto'
+    mask_complete = df_pass.output=='CORRECTO'
     # Set up the pitch
     pitch = Pitch(pitch_type='statsbomb', pitch_color='#22312b', line_color='#c7d5cc')
     #pitch = Pitch(pitch_type='statsbomb', pitch_color='white', line_color='green')
