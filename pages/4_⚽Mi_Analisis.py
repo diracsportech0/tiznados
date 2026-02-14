@@ -184,6 +184,10 @@ elif choice == 'Jugadores':
     #FILTRADO DE data
     df_ind = df_ind[df_ind.Rival==menu_match]
     df_ind = df_ind[df_ind.player==menu_players]
+    if menu_zone == 'Todo':
+        pass
+    else:
+        df_ind = df_ind[df_ind.zone==menu_zone]
 
     #------------ CAMPOGRAMA-------------------------------------------
 
