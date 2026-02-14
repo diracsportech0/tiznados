@@ -190,6 +190,14 @@ elif choice == 'Jugadores':
     fig = px.scatter(
         df_ind, x='x', y='y', #labels={'Nota': 'nota'},
         color='Event',
+        color_discrete_map={
+            'PERDIDA': '#AD1D00',
+            'REGATE': "#7108C7",
+            'TIRO': '#102C9C',
+
+            'PASE': 'black',
+            'CONDUCCION':'#FA6019',
+        },
         title=f'{menu_players} vs {menu_match} <br> ➜', hover_data=['time','Nota']
     )
     st.write('LISTO')
