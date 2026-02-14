@@ -203,7 +203,7 @@ elif choice == 'Jugadores':
             'y': False,
             'time': True,
             'Nota': True
-    }
+        }
         title=f'{menu_players} vs {menu_match} <br> ➜', #hover_data=['time','Nota']
     )
     st.write('LISTO')
